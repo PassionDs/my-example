@@ -26,7 +26,7 @@ public class TestUserService {
      * 查询master库User
      * @return
      */
-    @DS(DataSourceConstants.DS_KEY_MASTER)
+    @DS
     public List<TestUser> getMasterUser(){
         QueryWrapper<TestUser> queryWrapper = new QueryWrapper<>();
         return testUserMapper.selectAll(queryWrapper.isNotNull("name"));

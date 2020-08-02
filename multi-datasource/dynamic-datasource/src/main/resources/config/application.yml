@@ -1,0 +1,41 @@
+info:
+  build:
+    artifact: @project.artifactId@
+    name: @project.name@
+    description: @project.description@
+    version: @project.version@
+    java-version: @java.version@
+    encoding: @project.build.sourceEncoding@
+    environment: ${spring.profiles.active}
+    server-port: ${server.port}
+
+server:
+  port: 8080
+  servlet:
+    context-path: /dd
+
+logging:
+  level:
+    root: INFO
+    me:
+      mason:
+        demo:
+          dynamicdatasource:
+            mapper: DEBUG
+# mybatis-plus
+
+mybatis-plus:
+  # 默认位置，可不配置
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: me.mason.demo.dynamicdatasource.entity
+  global-config:
+    db-config:
+      # 使用数据库自增ID
+      id-type: auto
+swagger:
+  enabled: true
+  title: ${info.build.name}
+  description: ${info.build.description}
+  version: ${info.build.version}
+  base-package: me.mason.demo.dynamicdatasource.controller
+  base-path: /**

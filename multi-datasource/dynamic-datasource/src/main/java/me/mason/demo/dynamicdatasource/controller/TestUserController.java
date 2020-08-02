@@ -1,6 +1,10 @@
 package me.mason.demo.dynamicdatasource.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import me.mason.demo.dynamicdatasource.constants.DataSourceConstants;
 import me.mason.demo.dynamicdatasource.context.DynamicDataSourceContextHolder;
 import me.mason.demo.dynamicdatasource.entity.TestUser;
@@ -8,10 +12,7 @@ import me.mason.demo.dynamicdatasource.mapper.TestUserMapper;
 import me.mason.demo.dynamicdatasource.service.TestUserService;
 import me.mason.demo.dynamicdatasource.vo.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,22 +24,25 @@ import java.util.Map;
  * @author mason
  * @date 2020-01-08
  */
+@Api(tags = "用户操作", protocols = "application/json")
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TestUserController {
 
-    @Autowired
-    private TestUserMapper testUserMapper;
+    private final TestUserMapper testUserMapper;
 
-    @Autowired
-    private TestUserService testUserService;
-
+    private final TestUserService testUserService;
 
     /**
      * 查询
      */
+    @ApiOperation(value = "根据id查询用户 # Passion_Ds/2020-06-10#", notes = "根据id查询用户", nickname = "TestUserController" +
+            "-find")
+    @ApiImplicitParam(name = "id", value = "用户id", type = "query", required = true, dataType =
+            "int")
     @GetMapping("/find")
-    public Object find(int id) {
+    public Object find(@RequestParam("id") int id) {
         TestUser testUser = testUserMapper.selectOne(new QueryWrapper<TestUser>().eq("id" , id));
         if (testUser != null) {
             return ResponseResult.success(testUser);
@@ -50,6 +54,8 @@ public class TestUserController {
     /**
      * 查询全部
      */
+    @ApiOperation(value = "查询所有用户 # Passion_Ds/2020-06-10#", notes = "查询所有用户", nickname = "TestUserController" +
+            "-listAll")
     @GetMapping("/listall")
     public Object listAll() {
         int initSize = 2;

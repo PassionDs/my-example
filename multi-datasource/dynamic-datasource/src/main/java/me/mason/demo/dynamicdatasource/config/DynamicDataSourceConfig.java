@@ -21,8 +21,11 @@ import java.util.Map;
  * @author: mason
  * @since: 2020/1/9
  **/
-// 添加此配置，否则 报`The dependencies of some of the beans in the application context form a cycle`
-@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+
+/**
+ * 添加此配置，否则 报`The dependencies of some of the beans in the application context form a cycle`
+ */
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @Configuration
 @PropertySource("classpath:config/jdbc.properties")
 @MapperScan(basePackages = "me.mason.demo.dynamicdatasource.mapper")
